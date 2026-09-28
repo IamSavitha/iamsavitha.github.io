@@ -1,0 +1,58 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MetricStrip from '../../components/MetricStrip.astro';
+import Footer from '../../components/Footer.astro';
+import { profile } from '../../data/profile';
+
+export async function getStaticPaths() {
+  const flagships = await getCollection('projects', (p) => p.data.tier === 'flagship');
+  return flagships.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+const { Content } = await render(project);
+---
+
+<BaseLayout title={`${data.title} — ${profile.name}`} description={data.summary}>
+  <main class="container">
+    <a class="back" href="/#projects">← All projects</a>
+    <header>
+      <h1>{data.title}</h1>
+      <p class="summary">{data.summary}</p>
+      <dl class="facts">
+        {data.role && <div><dt>Role</dt><dd>{data.role}</dd></div>}
+        {data.timeframe && <div><dt>When</dt><dd>{data.timeframe}</dd></div>}
+        <div><dt>Stack</dt><dd>{data.tags.join(' · ')}</dd></div>
+      </dl>
+      <MetricStrip metrics={data.metrics ?? []} />
+    </header>
+    <article class="prose">
+      <Content />
+    </article>
+    {(data.repo || data.demo) && (
+      <p class="links">
+        {data.repo && <a class="btn" href={data.repo}>Code</a>}
+        {data.demo && <a class="btn" href={data.demo}>Demo</a>}
+      </p>
+    )}
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  main { padding-block: 2.5rem 3rem; }
+  .back { font-size: 0.9rem; }
+  h1 { margin: 1.5rem 0 0.5rem; font-size: clamp(1.9rem, 5vw, 2.75rem); line-height: 1.15; letter-spacing: -0.02em; }
+  .summary { max-width: var(--measure); margin: 0 0 1.5rem; font-size: 1.15rem; color: var(--muted); }
+  .facts { display: grid; gap: 0.35rem; margin: 0; font-size: 0.9rem; }
+  .facts div { display: flex; gap: 0.75rem; }
+  .facts dt { min-width: 3.5rem; font-weight: 600; }
+  .facts dd { margin: 0; color: var(--muted); }
+  .links { display: flex; gap: 0.6rem; margin-top: 2.5rem; }
+</style>
