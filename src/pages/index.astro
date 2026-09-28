@@ -1,6 +1,41 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Experience from '../components/Experience.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ProjectList from '../components/ProjectList.astro';
+import Skills from '../components/Skills.astro';
+import Footer from '../components/Footer.astro';
+import { groupByTier } from '../lib/projects';
+import { profile } from '../data/profile';
+
+const { cards, listed } = groupByTier(await getCollection('projects'));
 ---
-<BaseLayout title="Savitha Vijayarangan" description="ML/AI Engineer">
-  <main class="container"><h1>Layout OK</h1></main>
+
+<BaseLayout title={`${profile.name} — ML/AI Engineer`} description={profile.pitch}>
+  <Hero />
+  <main>
+    <About />
+    <Experience />
+    <section class="section container" id="projects">
+      <h2>Featured projects</h2>
+      <div class="grid">
+        {cards.map(({ id, data }) => <ProjectCard id={id} data={data} />)}
+      </div>
+    </section>
+    {listed.length > 0 && (
+      <section class="section container" id="more-projects">
+        <h2>More projects</h2>
+        <ProjectList projects={listed} />
+      </section>
+    )}
+    <Skills />
+  </main>
+  <Footer />
 </BaseLayout>
+
+<style>
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 1rem; }
+</style>

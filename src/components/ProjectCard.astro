@@ -1,0 +1,37 @@
+---
+import type { ProjectData } from '../lib/projectSchema';
+
+interface Props {
+  id: string;
+  data: ProjectData;
+}
+
+const { id, data } = Astro.props;
+const caseStudy = data.tier === 'flagship' ? `/projects/${id}/` : undefined;
+---
+
+<article class="card">
+  <h3>{caseStudy ? <a href={caseStudy}>{data.title}</a> : data.title}</h3>
+  <p class="summary">{data.summary}</p>
+  <p class="metric">{data.metric}</p>
+  <ul class="tags">{data.tags.map((tag) => <li>{tag}</li>)}</ul>
+  <p class="links">
+    {caseStudy && <a href={caseStudy}>Case study →</a>}
+    {data.repo && <a href={data.repo}>Code</a>}
+    {data.demo && <a href={data.demo}>Demo</a>}
+  </p>
+</article>
+
+<style>
+  .card {
+    display: flex; flex-direction: column; gap: 0.75rem; padding: 1.25rem;
+    border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface);
+  }
+  h3 { margin: 0; font-size: 1.1rem; }
+  h3 a { color: var(--text); text-decoration: none; }
+  h3 a:hover { color: var(--accent); }
+  .summary { margin: 0; color: var(--muted); }
+  .metric { margin: 0; font: 600 0.9rem/1.4 var(--font-mono); color: var(--accent); }
+  .links { display: flex; gap: 1rem; margin: auto 0 0; font-weight: 500; }
+  .links:empty { display: none; }
+</style>

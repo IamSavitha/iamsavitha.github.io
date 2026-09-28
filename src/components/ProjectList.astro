@@ -1,0 +1,25 @@
+---
+import type { ProjectEntry } from '../lib/projects';
+
+interface Props {
+  projects: ProjectEntry[];
+}
+
+const { projects } = Astro.props;
+---
+
+<ul class="list">
+  {projects.map(({ data }) => (
+    <li>
+      <h3>{data.repo ? <a href={data.repo}>{data.title}</a> : data.title}</h3>
+      <p>{data.summary}</p>
+      <ul class="tags">{data.tags.map((tag) => <li>{tag}</li>)}</ul>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .list { display: grid; gap: 1.5rem; max-width: var(--measure); margin: 0; padding: 0; list-style: none; }
+  h3 { margin: 0; font-size: 1rem; }
+  p { margin: 0.25rem 0 0.5rem; color: var(--muted); }
+</style>
