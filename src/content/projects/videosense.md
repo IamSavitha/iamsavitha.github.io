@@ -5,6 +5,8 @@ metric: "TODO: headline top-k accuracy on UCF101"
 tags: [PyTorch, 3D CNNs, Optical Flow, Siamese Networks, Grad-CAM]
 tier: flagship
 order: 4
+role: "TODO: your role (solo / team of N)"
+timeframe: "TODO: course and term, e.g. DATA 255, Spring 2026"
 metrics:
   - { label: "Dataset", value: "UCF101" }
   - { label: "Architectures", value: "C3D, R(2+1)D" }

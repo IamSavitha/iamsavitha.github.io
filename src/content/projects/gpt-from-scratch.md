@@ -5,6 +5,8 @@ metric: Validation loss 0.6438 on 110K stories
 tags: [PyTorch, Transformers, Attention, NLP]
 tier: flagship
 order: 3
+role: "TODO: your role (solo / team of N)"
+timeframe: "TODO: course and term, e.g. DATA 255, Spring 2026"
 metrics:
   - { label: "Parameters", value: "~4.8M" }
   - { label: "Training stories", value: "110,000" }
