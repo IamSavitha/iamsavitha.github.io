@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { profile } from '../data/profile';
+---
+
+<BaseLayout title={`Not found — ${profile.name}`} description="Page not found">
+  <main class="container">
+    <h1>Page not found</h1>
+    <p>That page doesn't exist. <a href="/">Back to the home page</a>.</p>
+  </main>
+</BaseLayout>
+
+<style>
+  main { padding-block: 6rem; }
+</style>
