@@ -1,0 +1,24 @@
+---
+import { profile } from '../data/profile';
+const { name, pitch, location, links } = profile;
+---
+
+<header class="hero container">
+  <p class="location">{location}</p>
+  <h1>{name}</h1>
+  <p class="pitch">{pitch}</p>
+  <nav class="actions" aria-label="Profile links">
+    <a class="btn primary" href={links.resume}>Resume</a>
+    <a class="btn" href={links.github}>GitHub</a>
+    {links.linkedin && <a class="btn" href={links.linkedin}>LinkedIn</a>}
+    <a class="btn" href={`mailto:${links.email}`}>Email</a>
+  </nav>
+</header>
+
+<style>
+  .hero { padding-block: 5rem 3rem; }
+  .location { margin: 0; font: 0.85rem var(--font-mono); color: var(--muted); }
+  h1 { margin: 0.5rem 0; font-size: clamp(2.2rem, 6vw, 3.5rem); line-height: 1.1; letter-spacing: -0.02em; }
+  .pitch { max-width: 40ch; margin: 0 0 2rem; font-size: 1.25rem; color: var(--muted); }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+</style>

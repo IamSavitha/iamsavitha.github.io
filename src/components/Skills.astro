@@ -1,0 +1,25 @@
+---
+import { skills } from '../data/skills';
+---
+
+<section class="section container" id="skills">
+  <h2>Skills</h2>
+  <dl class="skills">
+    {skills.map(({ group, items }) => (
+      <div>
+        <dt>{group}</dt>
+        <dd>{items.join(' · ')}</dd>
+      </div>
+    ))}
+  </dl>
+</section>
+
+<style>
+  .skills { display: grid; gap: 0.75rem; max-width: var(--measure); margin: 0; }
+  .skills div { display: grid; grid-template-columns: 1fr; gap: 0.1rem; }
+  dt { font-weight: 600; }
+  dd { margin: 0; color: var(--muted); }
+  @media (min-width: 640px) {
+    .skills div { grid-template-columns: 11rem 1fr; gap: 1rem; }
+  }
+</style>

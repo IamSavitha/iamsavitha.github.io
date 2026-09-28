@@ -1,0 +1,36 @@
+---
+import { experience } from '../data/experience';
+---
+
+<section class="section container" id="experience">
+  <h2>Experience</h2>
+  <ol class="timeline">
+    {experience.map((job) => (
+      <li>
+        <div class="head">
+          <h3>{job.company}</h3>
+          <span class="where">{job.location}</span>
+        </div>
+        {job.roles.map((role) => (
+          <p class="role">
+            <span>{role.title}</span>
+            <span class="dates">{role.dates}</span>
+          </p>
+        ))}
+        <ul>
+          {job.bullets.map((bullet) => <li>{bullet}</li>)}
+        </ul>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .timeline { display: grid; gap: 2rem; max-width: var(--measure); margin: 0; padding: 0; list-style: none; }
+  .head, .role { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.25rem 1rem; }
+  h3 { margin: 0; font-size: 1.1rem; }
+  .where { font-size: 0.9rem; color: var(--muted); }
+  .role { margin: 0.25rem 0 0; font-weight: 500; }
+  .dates { font: 0.8rem var(--font-mono); color: var(--muted); white-space: nowrap; }
+  ul { margin: 0.5rem 0 0; padding-left: 1.1rem; color: var(--muted); }
+</style>
