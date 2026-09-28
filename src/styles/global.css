@@ -1,0 +1,58 @@
+:root {
+  --bg: #ffffff;
+  --surface: #f6f7f9;
+  --text: #16181d;
+  --muted: #555c69;
+  --border: #e2e5ea;
+  --accent: #c2410c;
+  --font-sans: 'Inter Variable', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --measure: 70ch;
+  --wide: 1040px;
+  --radius: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1115;
+    --surface: #171a21;
+    --text: #e8eaf0;
+    --muted: #a0a7b4;
+    --border: #2a2f3a;
+    --accent: #fb923c;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 400 1rem/1.65 var(--font-sans); }
+a { color: var(--accent); text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+img { max-width: 100%; height: auto; }
+
+.container { max-width: var(--wide); margin-inline: auto; padding-inline: 16px; }
+.section { padding-block: 3rem; border-top: 1px solid var(--border); }
+.section > h2 {
+  margin: 0 0 1.5rem; font-size: 0.8rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted);
+}
+
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; padding: 0; margin: 0; }
+.tags li {
+  padding: 0.35rem 0.5rem; border: 1px solid var(--border); border-radius: 6px;
+  font: 0.75rem/1 var(--font-mono); color: var(--muted);
+}
+
+.btn {
+  display: inline-block; padding: 0.55rem 1rem; border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text); text-decoration: none; font-weight: 500;
+}
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+
+.prose { max-width: var(--measure); }
+.prose h2 { margin-top: 2.5rem; font-size: 1.35rem; }
+.prose table { display: block; overflow-x: auto; border-collapse: collapse; font-size: 0.95rem; }
+.prose th, .prose td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); text-align: left; }
+.prose td { font-variant-numeric: tabular-nums; }
+.prose img { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
