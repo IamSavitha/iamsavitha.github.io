@@ -30,7 +30,7 @@ export const experience: Job[] = [
       },
     ],
     bullets: [
-      'Develop curriculum and mentor 100+ graduate students on model deployment and distributed training.',
+      'Developed curriculum and mentored 100+ graduate students on model deployment and distributed training.',
       'Automated grading pipelines and submission-management scripts for high-enrollment courses.',
     ],
   },
