@@ -4,10 +4,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import MetricStrip from '../../components/MetricStrip.astro';
 import Footer from '../../components/Footer.astro';
 import { profile } from '../../data/profile';
+import { groupByTier } from '../../lib/projects';
 
 export async function getStaticPaths() {
-  const flagships = await getCollection('projects', (p) => p.data.tier === 'flagship');
-  return flagships.map((project) => ({ params: { slug: project.id }, props: { project } }));
+  const { cards } = groupByTier(await getCollection('projects'));
+  return cards
+    .filter((project) => project.data.tier === 'flagship')
+    .map((project) => ({ params: { slug: project.id }, props: { project } }));
 }
 
 interface Props {
