@@ -5,9 +5,8 @@ const { name, links } = profile;
 
 <footer class="section container">
   <p>
-    <a href={`mailto:${links.email}`}>{links.email}</a> ·
-    <a href={links.github}>GitHub</a>
-    {links.linkedin && <> · <a href={links.linkedin}>LinkedIn</a></>}
+    <a href={`mailto:${links.email}`}>{links.email}</a>{' · '}<a href={links.github}>GitHub</a>
+    {links.linkedin && <>{' · '}<a href={links.linkedin}>LinkedIn</a></>}
   </p>
   <p class="copy">© {new Date().getFullYear()} {name}</p>
 </footer>
