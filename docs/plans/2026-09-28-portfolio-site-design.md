@@ -87,7 +87,7 @@ metrics: [{label, value}]   # required when tier = flagship
 
 **Build & deploy**
 - Fresh git repo in this folder (not the enclosing home-directory repo).
-- GitHub Actions on push to `main`: `npm ci` → placeholder check → unit tests → `astro check` → `astro build` → internal link check (lychee, offline) → `actions/deploy-pages`. Pages source = "GitHub Actions". PRs run the same checks without deploying.
+- GitHub Actions on push to `main`: `npm ci` → unit tests → `astro check` → `astro build` → placeholder check → internal link check (lychee, offline) → `actions/deploy-pages`. Pages source = "GitHub Actions". PRs run the same checks without deploying. Pages write + OIDC (`id-token: write`) permissions and the `pages` concurrency group are scoped to the deploy job, not the build job.
 
 **Error handling** — fail at build time, never in production:
 - Invalid frontmatter or missing image import fails `astro build`.
