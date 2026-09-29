@@ -6,8 +6,8 @@ tags: [PyTorch, Transformers, Attention, NLP]
 repo: https://github.com/IamSavitha/GPT-Style-LLM-from-Scratch
 tier: flagship
 order: 3
-role: "TODO: your role (solo / team of N)"
-timeframe: "TODO: course and term, e.g. DATA 266, Spring 2026"
+role: "Pair project with Keith (team of 2)"
+timeframe: "Generative AI course, Feb – Mar 2026"
 metrics:
   - { label: "Parameters", value: "~4.8M" }
   - { label: "Train / val stories", value: "100K / 10K" }

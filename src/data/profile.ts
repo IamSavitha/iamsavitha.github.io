@@ -10,7 +10,7 @@ export const profile = {
   links: {
     resume: '/resume.pdf',
     github: 'https://github.com/IamSavitha',
-    linkedin: 'TODO: LinkedIn profile URL',
+    linkedin: 'https://www.linkedin.com/in/savitha-vijayarangan/',
     email: 'savitha.vijayarangan09@gmail.com',
   },
 };
