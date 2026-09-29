@@ -11,11 +11,11 @@ const icons = {
   send: '<path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/>',
 };
 
-const channels = [
+const channels: { icon: string; label: string; value?: string; href: string }[] = [
   { icon: icons.mail, label: 'Email', value: links.email, href: `mailto:${links.email}` },
-  { icon: icons.linkedin, label: 'LinkedIn', value: 'Connect on LinkedIn', href: links.linkedin },
-  { icon: icons.github, label: 'GitHub', value: 'Follow on GitHub', href: links.github },
-  { icon: icons.file, label: 'Resume', value: 'Download the one-page PDF', href: links.resume },
+  { icon: icons.linkedin, label: 'LinkedIn', href: links.linkedin },
+  { icon: icons.github, label: 'GitHub', href: links.github },
+  { icon: icons.file, label: 'Resume', href: links.resume },
 ];
 ---
 
@@ -59,7 +59,7 @@ const channels = [
                   <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true" set:html={icon} /></span>
                   <span class="text">
                     <span class="label">{label}</span>
-                    <span class="value">{value}</span>
+                    {value && <span class="value">{value}</span>}
                   </span>
                 </a>
               </li>
