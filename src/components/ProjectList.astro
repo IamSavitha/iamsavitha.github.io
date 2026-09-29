@@ -1,4 +1,5 @@
 ---
+import ArchDiagram from './ArchDiagram.astro';
 import type { ProjectEntry } from '../lib/projects';
 
 interface Props {
@@ -9,11 +10,16 @@ const { projects } = Astro.props;
 ---
 
 <ul class="list">
-  {projects.map(({ data }, i) => (
+  {projects.map(({ id, data }, i) => (
     <li class="card item" data-reveal style={`--i:${i % 3}`}>
-      <h4>{data.repo ? <a href={data.repo}>{data.title}</a> : data.title}</h4>
-      <p>{data.summary}</p>
-      <ul class="tags">{data.tags.map((tag) => <li>{tag}</li>)}</ul>
+      <div class="media">
+        {data.pipeline && <ArchDiagram id={id} stages={data.pipeline} />}
+      </div>
+      <div class="body">
+        <h4>{data.repo ? <a href={data.repo}>{data.title}</a> : data.title}</h4>
+        <p>{data.summary}</p>
+        <ul class="tags">{data.tags.map((tag) => <li>{tag}</li>)}</ul>
+      </div>
     </li>
   ))}
 </ul>
@@ -21,12 +27,14 @@ const { projects } = Astro.props;
 <style>
   .list {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
-    gap: 1rem; margin: 0; padding: 0; list-style: none;
+    gap: 1.25rem; margin: 0; padding: 0; list-style: none;
   }
-  .item { display: flex; flex-direction: column; gap: 0.6rem; padding: 1.25rem; }
+  .item { display: flex; flex-direction: column; overflow: hidden; }
+  .media { border-bottom: 1px solid var(--border); background: #fdfbf7; }
+  .body { display: flex; flex: 1; flex-direction: column; gap: 0.6rem; padding: 1.25rem; }
   h4 { margin: 0; font-size: 1rem; line-height: 1.35; }
   h4 a { color: var(--text); text-decoration: none; }
   h4 a:hover { color: var(--accent); }
   p { margin: 0 0 auto; color: var(--muted); font-size: 0.9rem; }
-  .item .tags { margin-top: 0.25rem; }
+  .body .tags { margin-top: 0.25rem; }
 </style>

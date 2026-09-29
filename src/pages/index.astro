@@ -23,7 +23,7 @@ const { cards, listed } = groupByTier(await getCollection('projects'));
       <div class="container">
         <SectionHead title="Projects" subtitle="Case studies and selected work" />
         <div class="grid">
-          {cards.map(({ id, data }) => <ProjectCard id={id} data={data} />)}
+          {cards.map(({ id, data }, i) => <ProjectCard id={id} data={data} feature={i === 0} />)}
         </div>
         {listed.length > 0 && (
           <div class="more" id="more-projects">
@@ -40,7 +40,7 @@ const { cards, listed } = groupByTier(await getCollection('projects'));
 </BaseLayout>
 
 <style>
-  .projects { border-block: 1px solid var(--border); background: #0d0d0f; }
+  .projects { border-block: 1px solid var(--border); background: var(--bg-band); }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 1.25rem; }
   .more { margin-top: 3.5rem; }
   .more h3 { margin: 0 0 1.25rem; font-size: 1.3rem; }

@@ -9,6 +9,9 @@ export interface ProjectEntry {
  *  Throws on content that would render badly, so problems fail the build instead of shipping. */
 export function groupByTier<T extends ProjectEntry>(entries: T[]): { cards: T[]; listed: T[] } {
   for (const { id, data } of entries) {
+    if (!data.pipeline) {
+      throw new Error(`Project "${id}" needs a pipeline (its architecture diagram)`);
+    }
     if (data.tier === 'flagship' && !data.metrics?.length) {
       throw new Error(`Flagship project "${id}" needs a non-empty metrics list`);
     }

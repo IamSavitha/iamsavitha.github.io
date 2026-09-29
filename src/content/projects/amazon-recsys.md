@@ -5,4 +5,11 @@ tags: ["PySpark", "ALS", "MLflow", "FastAPI", "Streamlit"]
 repo: https://github.com/IamSavitha/Amazon_Recommendation_system
 tier: listed
 order: 1
+pipeline:
+  - { label: "Raw JSONL", detail: "Amazon reviews" }
+  - { label: "PySpark ETL", detail: "to Parquet" }
+  - { label: "Models", detail: "ALS · NB · K-Means" }
+  - { label: "MLflow", detail: "experiment tracking" }
+  - { label: "FastAPI", detail: "serving" }
+  - { label: "Streamlit", detail: "BI dashboard" }
 ---

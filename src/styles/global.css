@@ -1,22 +1,28 @@
+/* Palette: warm paper, ink, soft rose, indigo, matcha. */
 :root {
-  color-scheme: dark;
-  --bg: #0a0a0b;
-  --surface: #131316;
-  --surface-2: #1a1a1f;
-  --text: #f4f4f5;
-  --muted: #a1a1aa;
-  --border: rgba(255, 255, 255, 0.09);
-  --accent: #fb923c;
-  --accent-strong: #f97316;
-  --accent-soft: rgba(251, 146, 60, 0.1);
-  --accent-border: rgba(251, 146, 60, 0.28);
-  --accent-text: #fed7aa;
+  color-scheme: light;
+  --bg: #faf7f2;          /* warm paper */
+  --bg-band: #f4efe7;     /* slightly deeper paper for alternating sections */
+  --surface: #ffffff;
+  --surface-2: #f7f2eb;
+  --text: #1f1d1b;        /* ink */
+  --muted: #5f5a54;
+  --border: #e7dfd3;
+  --accent: #b03a5b;      /* rose, deep enough for text */
+  --accent-strong: #972f4d;
+  --sakura: #f3c6d1;
+  --sakura-soft: #fbe9ee;
+  --sakura-border: #f0c9d3;
+  --accent-text: #8e2f4a;
+  --indigo: #264b73;
+  --matcha: #6b8e4e;
   --font-sans: 'Inter Variable', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   --measure: 70ch;
   --wide: 1120px;
-  --radius: 14px;
-  --nav-h: 60px;
+  --radius: 16px;
+  --nav-h: 62px;
+  --shadow-soft: 0 1px 2px rgba(31, 29, 27, 0.04), 0 8px 24px -12px rgba(31, 29, 27, 0.12);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -26,12 +32,13 @@ a { color: var(--accent); text-underline-offset: 3px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 img { max-width: 100%; height: auto; display: block; }
 [id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
+::selection { background: var(--sakura); color: var(--text); }
 
 .container { max-width: var(--wide); margin-inline: auto; padding-inline: 16px; }
 @media (min-width: 640px) { .container { padding-inline: 24px; } }
 
-.section { padding-block: 4.5rem; }
-.section-head { margin: 0 auto 2.5rem; text-align: center; }
+.section { padding-block: 5rem; }
+.section-head { margin: 0 auto 2.75rem; text-align: center; }
 .section-head h2 {
   margin: 0; font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15;
 }
@@ -40,22 +47,23 @@ img { max-width: 100%; height: auto; display: block; }
 .card {
   position: relative; isolation: isolate;
   border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface);
+  box-shadow: var(--shadow-soft);
   transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 .card::before {
   content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
-  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(251, 146, 60, 0.13), transparent 45%);
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(243, 198, 209, 0.35), transparent 45%);
   opacity: 0; transition: opacity 0.3s ease;
 }
-.card:hover { border-color: var(--accent-border); box-shadow: 0 18px 50px -20px rgba(249, 115, 22, 0.25); }
+.card:hover { border-color: var(--sakura-border); box-shadow: 0 1px 2px rgba(31, 29, 27, 0.04), 0 18px 40px -18px rgba(176, 58, 91, 0.28); }
 .card:hover::before { opacity: 1; }
 
-/* Animated gradient text (name and section titles) */
+/* Animated gradient text (name and section titles): ink → indigo → rose */
 .shimmer, .section-head h2 {
-  background: linear-gradient(90deg, #fb923c, #ffffff, #fdba74, #ffffff, #fb923c);
+  background: linear-gradient(90deg, var(--text), var(--indigo), var(--accent), var(--indigo), var(--text));
   background-size: 200% auto;
   -webkit-background-clip: text; background-clip: text; color: transparent;
-  animation: shimmer 8s linear infinite;
+  animation: shimmer 10s linear infinite;
 }
 @keyframes shimmer { to { background-position: 200% center; } }
 @keyframes aurora { from { background-position: 50% 50%, 50% 50%; } to { background-position: 350% 50%, 350% 50%; } }
@@ -74,27 +82,25 @@ html.js [data-reveal].is-in { opacity: 1; transform: none; }
 
 .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; padding: 0; margin: 0; }
 .tags li {
-  padding: 0.2rem 0.6rem; border: 1px solid var(--accent-border); border-radius: 999px;
-  background: var(--accent-soft); color: var(--accent-text); font-size: 0.75rem; line-height: 1.5;
+  padding: 0.18rem 0.62rem; border: 1px solid var(--sakura-border); border-radius: 999px;
+  background: var(--sakura-soft); color: var(--accent-text); font-size: 0.75rem; line-height: 1.5;
 }
 
 .btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
-  padding: 0.65rem 1.2rem; border: 1px solid var(--border); border-radius: 10px;
-  color: var(--text); text-decoration: none; font-weight: 500; font-size: 0.95rem;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
+  padding: 0.65rem 1.2rem; border: 1px solid var(--border); border-radius: 999px;
+  background: var(--surface); color: var(--text); text-decoration: none; font: inherit; font-weight: 500; font-size: 0.95rem;
+  cursor: pointer; transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
-.btn:hover { border-color: var(--accent); }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: #111; }
+.btn:hover { border-color: var(--accent); transform: translateY(-1px); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
 .btn.primary:hover { background: var(--accent-strong); border-color: var(--accent-strong); }
 
 .prose { max-width: var(--measure); }
 .prose h2 { margin-top: 2.75rem; font-size: 1.4rem; letter-spacing: -0.01em; }
-.prose strong { color: var(--text); }
-.prose p, .prose li { color: #d4d4d8; }
+.prose p, .prose li { color: #3a3632; }
 .prose table { display: block; overflow-x: auto; border-collapse: collapse; font-size: 0.95rem; }
 .prose th, .prose td { padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--border); text-align: left; }
-.prose th { color: var(--text); }
 .prose td { font-variant-numeric: tabular-nums; }
 .prose img { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
 

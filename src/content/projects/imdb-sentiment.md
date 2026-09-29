@@ -5,4 +5,10 @@ tags: ["PyTorch", "BiLSTM", "CNN", "NLP"]
 repo: https://github.com/IamSavitha/Sentiment-Analysis-on-IMDB-Reviews
 tier: listed
 order: 7
+pipeline:
+  - { label: "50K reviews", detail: "IMDB" }
+  - { label: "Tokenize", detail: "20K-word vocab" }
+  - { label: "Embeddings", detail: "trained from scratch" }
+  - { label: "CNN + BiLSTM", detail: "hybrid vs BiLSTM" }
+  - { label: "Sentiment", detail: "positive / negative" }
 ---

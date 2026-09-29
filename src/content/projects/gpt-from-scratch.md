@@ -13,6 +13,13 @@ metrics:
   - { label: "Train / val stories", value: "100K / 10K" }
   - { label: "Validation loss", value: "0.6438" }
   - { label: "Vocabulary (char-level)", value: "110" }
+pipeline:
+  - { label: "TinyStories", detail: "100K train stories" }
+  - { label: "Char tokenizer", detail: "vocab of 110" }
+  - { label: "Embeddings", detail: "token + position" }
+  - { label: "6 × Transformer", detail: "8-head attention" }
+  - { label: "LM head", detail: "next character" }
+  - { label: "Sampling", detail: "temperature 0–1.2" }
 ---
 
 ## Problem

@@ -43,4 +43,22 @@ describe('projectSchema', () => {
   it('requires at least one tag', () => {
     expect(projectSchema.safeParse({ ...listed, tags: [] }).success).toBe(false);
   });
+
+  it('accepts a pipeline of 3 to 6 stages with optional detail', () => {
+    const pipeline = [{ label: 'Frames' }, { label: 'YOLO11', detail: 'every frame' }, { label: 'Alert' }];
+    expect(projectSchema.safeParse({ ...listed, pipeline }).success).toBe(true);
+  });
+
+  it('rejects a pipeline with fewer than 3 or more than 6 stages', () => {
+    const stage = { label: 'Stage' };
+    expect(projectSchema.safeParse({ ...listed, pipeline: [stage, stage] }).success).toBe(false);
+    expect(projectSchema.safeParse({ ...listed, pipeline: Array(7).fill(stage) }).success).toBe(false);
+  });
+
+  it('rejects pipeline text too long to fit a diagram node', () => {
+    const longLabel = [{ label: 'x'.repeat(19) }, { label: 'b' }, { label: 'c' }];
+    const longDetail = [{ label: 'a', detail: 'x'.repeat(23) }, { label: 'b' }, { label: 'c' }];
+    expect(projectSchema.safeParse({ ...listed, pipeline: longLabel }).success).toBe(false);
+    expect(projectSchema.safeParse({ ...listed, pipeline: longDetail }).success).toBe(false);
+  });
 });

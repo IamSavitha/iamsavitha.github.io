@@ -110,10 +110,11 @@ function initSparkles() {
         dot.y = height + 4;
         dot.x = Math.random() * width;
       }
-      const alpha = 0.25 + 0.6 * Math.abs(Math.sin(time / 900 + dot.phase));
+      const alpha = 0.2 + 0.5 * Math.abs(Math.sin(time / 900 + dot.phase));
       ctx.beginPath();
-      ctx.arc(dot.x, dot.y, dot.r, 0, Math.PI * 2);
-      ctx.fillStyle = dot.warm ? `rgba(253, 186, 116, ${alpha})` : `rgba(255, 255, 255, ${alpha * 0.8})`;
+      ctx.arc(dot.x, dot.y, dot.r * 1.3, 0, Math.PI * 2);
+      // Soft rose and indigo dots on the light paper background
+      ctx.fillStyle = dot.warm ? `rgba(214, 112, 140, ${alpha})` : `rgba(38, 75, 115, ${alpha * 0.55})`;
       ctx.fill();
     }
     requestAnimationFrame(draw);
@@ -128,6 +129,23 @@ function initSparkles() {
   }).observe(canvas);
 }
 
+/** Contact form: compose an email in the visitor's mail app (GitHub Pages has no form backend). */
+function initContactForm() {
+  const form = document.querySelector<HTMLFormElement>('[data-contact]');
+  if (!form) return;
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const name = String(data.get('name') ?? '').trim();
+    const email = String(data.get('email') ?? '').trim();
+    const message = String(data.get('message') ?? '').trim();
+    const subject = `Portfolio message from ${name}`;
+    const body = `${message}\n\n— ${name} (${email})`;
+    window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+}
+
+initContactForm();
 initReveal();
 initScrollTilt();
 initCardPointer();

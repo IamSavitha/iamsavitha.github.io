@@ -1,0 +1,108 @@
+---
+import type { Stage } from '../lib/projectSchema';
+
+interface Props {
+  id: string;
+  stages: Stage[];
+}
+
+const { id, stages } = Astro.props;
+
+// Layout: up to 3 stages per row; the second row runs right-to-left so the flow snakes down.
+const W = 480;
+const H = 300;
+const NODE_W = 136;
+const NODE_H = 66;
+const MARGIN = 16;
+const GAP = 20;
+const SEGMENT_S = 1.1; // seconds for the pulse to travel between two stages
+
+const rows = stages.length > 3 ? [46, 188] : [(H - NODE_H) / 2];
+const nodes = stages.map((stage, i) => {
+  const row = i < 3 ? 0 : 1;
+  const col = row === 0 ? i : 2 - (i - 3);
+  const x = MARGIN + col * (NODE_W + GAP);
+  const y = rows[row];
+  return { ...stage, x, y, cx: x + NODE_W / 2, cy: y + NODE_H / 2, row };
+});
+
+const connectors = nodes.slice(1).map((to, i) => {
+  const from = nodes[i];
+  if (from.row !== to.row) return { x1: from.cx, y1: from.y + NODE_H, x2: to.cx, y2: to.y };
+  const leftToRight = to.x > from.x;
+  return leftToRight
+    ? { x1: from.x + NODE_W, y1: from.cy, x2: to.x, y2: to.cy }
+    : { x1: from.x, y1: from.cy, x2: to.x + NODE_W, y2: to.cy };
+});
+
+const pulsePath = `M ${nodes.map((n) => `${n.cx} ${n.cy}`).join(' L ')}`;
+const loop = (nodes.length - 1) * SEGMENT_S;
+const uid = `arch-${id}`;
+const label = `Architecture: ${stages.map((s) => s.label).join(' → ')}`;
+---
+
+<svg class="arch" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={label} style={`--loop:${loop}s`}>
+  <defs>
+    <pattern id={`${uid}-dots`} width="16" height="16" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1" fill="#e6ddd0" />
+    </pattern>
+    <marker id={`${uid}-arrow`} viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L8 4 L0 8 z" fill="#c2587a" />
+    </marker>
+    <radialGradient id={`${uid}-glow`}>
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="45%" stop-color="#e58aa3" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#e58aa3" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width={W} height={H} fill="#fdfbf7" />
+  <rect width={W} height={H} fill={`url(#${uid}-dots)`} />
+
+  {connectors.map((c) => (
+    <g>
+      <line class="wire" x1={c.x1} y1={c.y1} x2={c.x2} y2={c.y2} />
+      <line class="flow" x1={c.x1} y1={c.y1} x2={c.x2} y2={c.y2} marker-end={`url(#${uid}-arrow)`} />
+    </g>
+  ))}
+
+  <circle class="pulse" r="9" fill={`url(#${uid}-glow)`}>
+    <animateMotion dur={`${loop}s`} repeatCount="indefinite" path={pulsePath} />
+  </circle>
+
+  {nodes.map((n, i) => (
+    <g class="node" style={`--delay:${i * SEGMENT_S}s`}>
+      <rect class="box" x={n.x} y={n.y} width={NODE_W} height={NODE_H} rx="12" />
+      <text class="step" x={n.x + 10} y={n.y + 15}>{String(i + 1).padStart(2, '0')}</text>
+      <text class="label" x={n.cx} y={n.detail ? n.y + 36 : n.cy + 5}>{n.label}</text>
+      {n.detail && <text class="detail" x={n.cx} y={n.y + 53}>{n.detail}</text>}
+    </g>
+  ))}
+</svg>
+
+<style>
+  .arch { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; font-family: var(--font-sans); }
+  .wire { stroke: #f1d9df; stroke-width: 2; }
+  .flow {
+    stroke: #c2587a; stroke-width: 2; stroke-dasharray: 5 7; stroke-linecap: round;
+    animation: flow 0.9s linear infinite;
+  }
+  .box {
+    fill: #ffffff; stroke: #ead7cf; stroke-width: 1.5;
+    animation: node-glow var(--loop) var(--delay) ease-out infinite;
+  }
+  .step { fill: #b76e86; font: 600 9px var(--font-mono); }
+  .label { fill: #1f1d1b; font-size: 13px; font-weight: 700; text-anchor: middle; }
+  .detail { fill: #6f6962; font-size: 10.5px; text-anchor: middle; }
+
+  @keyframes flow { to { stroke-dashoffset: -12; } }
+  @keyframes node-glow {
+    0% { stroke: #c2587a; fill: #fdecf1; filter: drop-shadow(0 0 8px rgba(229, 138, 163, 0.55)); }
+    18%, 100% { stroke: #ead7cf; fill: #ffffff; filter: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flow, .box { animation: none; }
+    .pulse { display: none; }
+  }
+</style>

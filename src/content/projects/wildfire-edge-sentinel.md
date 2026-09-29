@@ -13,6 +13,13 @@ metrics:
   - { label: "VLM calls per run", value: "266 → 11" }
   - { label: "VLM tokens per run", value: "447K → 3K" }
   - { label: "Video uploaded", value: "23 MB → 0 B" }
+pipeline:
+  - { label: "Tower cameras", detail: "video frames" }
+  - { label: "YOLO11 detector", detail: "every frame · ~40 ms" }
+  - { label: "Persistence gate", detail: "smoke ≥ 3 frames" }
+  - { label: "Qwen2.5-VL + LoRA", detail: "once per event" }
+  - { label: "Severity rules", detail: "deterministic" }
+  - { label: "SQLite outbox", detail: "alerts only, no video" }
 ---
 
 ## Problem

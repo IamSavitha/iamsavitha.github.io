@@ -2,14 +2,16 @@ import { describe, expect, it } from 'vitest';
 import { groupByTier, type ProjectEntry } from './projects';
 import type { ProjectData } from './projectSchema';
 
+const someMetrics = [{ label: 'x', value: '1' }];
+const somePipeline = [{ label: 'a' }, { label: 'b' }, { label: 'c' }];
+
 function entry(id: string, data: Partial<ProjectData>): ProjectEntry {
   return {
     id,
-    data: { title: id, summary: 's', metric: 'm', tags: ['t'], tier: 'featured', order: 0, ...data },
+    data: { title: id, summary: 's', metric: 'm', tags: ['t'], tier: 'featured', order: 0, pipeline: somePipeline, ...data },
   };
 }
 
-const someMetrics = [{ label: 'x', value: '1' }];
 
 describe('groupByTier', () => {
   it('splits cards from listed and sorts each by order', () => {
@@ -39,5 +41,11 @@ describe('groupByTier', () => {
 
   it('allows listed projects without a headline metric', () => {
     expect(() => groupByTier([entry('z', { tier: 'listed', metric: undefined })])).not.toThrow();
+  });
+
+  it('throws when any project has no pipeline diagram', () => {
+    expect(() => groupByTier([entry('p', { tier: 'listed', pipeline: undefined })])).toThrow(
+      /Project "p" needs a pipeline/,
+    );
   });
 });
