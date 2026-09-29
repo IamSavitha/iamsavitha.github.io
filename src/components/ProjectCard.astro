@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import type { ProjectData } from '../lib/projectSchema';
+import { projectImages } from '../data/projectImages';
 
 interface Props {
   id: string;
@@ -8,30 +10,45 @@ interface Props {
 
 const { id, data } = Astro.props;
 const caseStudy = data.tier === 'flagship' ? `/projects/${id}/` : undefined;
+const image = projectImages[id];
 ---
 
-<article class="card">
-  <h3>{caseStudy ? <a href={caseStudy}>{data.title}</a> : data.title}</h3>
-  <p class="summary">{data.summary}</p>
-  <p class="metric">{data.metric}</p>
-  <ul class="tags">{data.tags.map((tag) => <li>{tag}</li>)}</ul>
-  <p class="links">
-    {caseStudy && <a href={caseStudy}>Case study →</a>}
-    {data.repo && <a href={data.repo}>Code</a>}
-    {data.demo && <a href={data.demo}>Demo</a>}
-  </p>
+<article class:list={['card', 'project', { feature: image }]}>
+  {image && (
+    <div class="media">
+      <Image src={image.src} alt={image.alt} widths={[480, 800, 1200]} sizes="(min-width: 900px) 560px, 100vw" />
+    </div>
+  )}
+  <div class="body">
+    <h3>{caseStudy ? <a href={caseStudy}>{data.title}</a> : data.title}</h3>
+    <p class="summary">{data.summary}</p>
+    <p class="metric">{data.metric}</p>
+    <ul class="tags">{data.tags.map((tag) => <li>{tag}</li>)}</ul>
+    <p class="links">
+      {caseStudy && <a class="btn primary" href={caseStudy}>Read case study</a>}
+      {data.repo && <a class="btn" href={data.repo}>Code</a>}
+      {data.demo && <a class="btn" href={data.demo}>Demo</a>}
+    </p>
+  </div>
 </article>
 
 <style>
-  .card {
-    display: flex; flex-direction: column; gap: 0.75rem; padding: 1.25rem;
-    border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface);
-  }
-  h3 { margin: 0; font-size: 1.1rem; }
+  .project { display: flex; flex-direction: column; overflow: hidden; }
+  .media { border-bottom: 1px solid var(--border); background: var(--surface-2); }
+  .media :global(img) { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 16 / 10; }
+  .body { display: flex; flex: 1; flex-direction: column; gap: 0.85rem; padding: 1.5rem; }
+  h3 { margin: 0; font-size: 1.25rem; line-height: 1.3; }
   h3 a { color: var(--text); text-decoration: none; }
   h3 a:hover { color: var(--accent); }
-  .summary { margin: 0; color: var(--muted); }
+  .summary { margin: 0; color: #d4d4d8; }
   .metric { margin: 0; font: 600 0.9rem/1.4 var(--font-mono); color: var(--accent); }
-  .links { display: flex; gap: 1rem; margin: auto 0 0; font-weight: 500; }
+  .links { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: auto 0 0; padding-top: 0.25rem; }
   .links:empty { display: none; }
+  .links .btn { padding: 0.5rem 0.95rem; font-size: 0.88rem; }
+  @media (min-width: 900px) {
+    .feature { grid-column: 1 / -1; flex-direction: row; }
+    .feature .media { flex: 0 0 52%; border-bottom: 0; border-right: 1px solid var(--border); }
+    .feature .body { padding: 2rem; }
+    .feature h3 { font-size: 1.6rem; }
+  }
 </style>

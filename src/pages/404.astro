@@ -5,13 +5,18 @@ import { profile } from '../data/profile';
 ---
 
 <BaseLayout title={`Not found — ${profile.name}`} description="Page not found" noindex>
-  <main class="container">
+  <main id="main" class="container">
+    <p class="code">404</p>
     <h1>Page not found</h1>
-    <p>That page doesn't exist. <a href="/">Back to the home page</a>.</p>
+    <p>That page doesn't exist.</p>
+    <a class="btn primary" href="/">Back to the home page</a>
   </main>
   <Footer />
 </BaseLayout>
 
 <style>
-  main { padding-block: 6rem; }
+  main { padding-block: calc(var(--nav-h) + 5rem) 6rem; }
+  .code { margin: 0; font: 600 0.9rem var(--font-mono); color: var(--accent); }
+  h1 { margin: 0.5rem 0; font-size: clamp(2rem, 5vw, 3rem); }
+  p { color: var(--muted); }
 </style>

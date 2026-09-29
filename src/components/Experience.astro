@@ -1,36 +1,39 @@
 ---
+import SectionHead from './SectionHead.astro';
 import { experience } from '../data/experience';
 ---
 
-<section class="section container" id="experience">
-  <h2>Experience</h2>
-  <ol class="timeline">
-    {experience.map((job) => (
-      <li>
-        <div class="head">
-          <h3>{job.company}</h3>
-          <span class="where">{job.location}</span>
-        </div>
-        {job.roles.map((role) => (
-          <p class="role">
-            <span>{role.title}</span>
-            <span class="dates">{role.dates}</span>
-          </p>
-        ))}
-        <ul>
-          {job.bullets.map((bullet) => <li>{bullet}</li>)}
-        </ul>
-      </li>
-    ))}
-  </ol>
+<section class="section" id="experience">
+  <div class="container">
+    <SectionHead title="Experience" subtitle="Where I've built and shipped" />
+    <ol class="jobs">
+      {experience.map((job) => (
+        <li class="card job">
+          <p class="company">{job.company}</p>
+          {job.roles.map((role) => (
+            <div class="role">
+              <h3>{role.title}</h3>
+              <p class="meta">{role.dates} · {job.location}</p>
+            </div>
+          ))}
+          <ul class="bullets">
+            {job.bullets.map((bullet) => <li>{bullet}</li>)}
+          </ul>
+          <ul class="tags">{job.tags.map((tag) => <li>{tag}</li>)}</ul>
+        </li>
+      ))}
+    </ol>
+  </div>
 </section>
 
 <style>
-  .timeline { display: grid; gap: 2rem; max-width: var(--measure); margin: 0; padding: 0; list-style: none; }
-  .head, .role { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.25rem 1rem; }
-  h3 { margin: 0; font-size: 1.1rem; }
-  .where { font-size: 0.9rem; color: var(--muted); }
-  .role { margin: 0.25rem 0 0; font-weight: 500; }
-  .dates { font: 0.8rem var(--font-mono); color: var(--muted); white-space: nowrap; }
-  ul { margin: 0.5rem 0 0; padding-left: 1.1rem; color: var(--muted); }
+  .jobs { display: grid; gap: 1.25rem; margin: 0; padding: 0; list-style: none; }
+  @media (min-width: 900px) { .jobs { grid-template-columns: 1fr 1fr; } }
+  .job { display: flex; flex-direction: column; gap: 0.75rem; padding: 1.5rem; }
+  .company { margin: 0; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
+  .role h3 { margin: 0; font-size: 1.15rem; line-height: 1.35; }
+  .meta { margin: 0.2rem 0 0; font-size: 0.85rem; color: var(--muted); }
+  .bullets { margin: 0; padding-left: 1.1rem; color: #d4d4d8; font-size: 0.95rem; }
+  .bullets li { margin-bottom: 0.35rem; }
+  .job .tags { margin-top: auto; }
 </style>

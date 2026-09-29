@@ -8,6 +8,7 @@ export interface Job {
   location: string;
   roles: Role[];
   bullets: string[];
+  tags: string[];
 }
 
 export const experience: Job[] = [
@@ -19,6 +20,7 @@ export const experience: Job[] = [
       'Built semantic search over 10,000+ listings with sentence-transformer embeddings and FAISS, evaluated against BM25 and served by an 8-endpoint FastAPI service at sub-100ms latency.',
       'Built an entity extractor and a natural-language query parser with parameterized SQL generation, reaching 87% extraction F1 and 92% query-parsing accuracy.',
     ],
+    tags: ['NLP', 'FAISS', 'Sentence-Transformers', 'BM25', 'FastAPI', 'SQL'],
   },
   {
     company: 'San José State University',
@@ -33,6 +35,7 @@ export const experience: Job[] = [
       'Developed curriculum and mentored 100+ graduate students on model deployment and distributed training.',
       'Automated grading pipelines and submission-management scripts for high-enrollment courses.',
     ],
+    tags: ['Deep Learning', 'Generative AI', 'Model Deployment', 'Distributed Training'],
   },
   {
     company: 'HexasenseAI',
@@ -42,6 +45,7 @@ export const experience: Job[] = [
       'Deployed optimized ML pipelines that cut inference latency by 30%.',
       'Built clinical risk-prediction models on healthcare data, applying Responsible AI practices across the ML lifecycle.',
     ],
+    tags: ['ML Pipelines', 'Feature Engineering', 'Healthcare', 'Responsible AI'],
   },
   {
     company: 'Larsen & Toubro Infotech (LTI)',
@@ -54,5 +58,6 @@ export const experience: Job[] = [
       'Built Python/SQL/Airflow ETL pipelines handling 1M+ records/day and integrated 5+ sources into a Snowflake warehouse.',
       'Built Python backend services handling 50K+ transactions/day and shipped 10+ production features via REST APIs.',
     ],
+    tags: ['Python', 'SQL', 'Airflow', 'Snowflake', 'REST APIs'],
   },
 ];

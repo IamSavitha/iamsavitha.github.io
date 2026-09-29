@@ -2,11 +2,12 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
-import About from '../components/About.astro';
 import Experience from '../components/Experience.astro';
+import SectionHead from '../components/SectionHead.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ProjectList from '../components/ProjectList.astro';
 import Skills from '../components/Skills.astro';
+import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 import { groupByTier } from '../lib/projects';
 import { profile } from '../data/profile';
@@ -15,27 +16,32 @@ const { cards, listed } = groupByTier(await getCollection('projects'));
 ---
 
 <BaseLayout title={`${profile.name} — ML/AI Engineer`} description={profile.pitch}>
-  <Hero />
-  <main>
-    <About />
+  <main id="main">
+    <Hero />
     <Experience />
-    <section class="section container" id="projects">
-      <h2>Featured projects</h2>
-      <div class="grid">
-        {cards.map(({ id, data }) => <ProjectCard id={id} data={data} />)}
+    <section class="section projects" id="projects">
+      <div class="container">
+        <SectionHead title="Projects" subtitle="Case studies and selected work" />
+        <div class="grid">
+          {cards.map(({ id, data }) => <ProjectCard id={id} data={data} />)}
+        </div>
+        {listed.length > 0 && (
+          <div class="more" id="more-projects">
+            <h3>More projects</h3>
+            <ProjectList projects={listed} />
+          </div>
+        )}
       </div>
     </section>
-    {listed.length > 0 && (
-      <section class="section container" id="more-projects">
-        <h2>More projects</h2>
-        <ProjectList projects={listed} />
-      </section>
-    )}
     <Skills />
+    <Contact />
   </main>
   <Footer />
 </BaseLayout>
 
 <style>
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 1rem; }
+  .projects { border-block: 1px solid var(--border); background: #0d0d0f; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 1.25rem; }
+  .more { margin-top: 3.5rem; }
+  .more h3 { margin: 0 0 1.25rem; font-size: 1.3rem; }
 </style>

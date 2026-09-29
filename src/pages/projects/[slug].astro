@@ -23,39 +23,51 @@ const { Content } = await render(project);
 ---
 
 <BaseLayout title={`${data.title} — ${profile.name}`} description={data.summary}>
-  <main class="container">
-    <a class="back" href="/#projects">← All projects</a>
-    <header>
-      <h1>{data.title}</h1>
-      <p class="summary">{data.summary}</p>
-      <dl class="facts">
-        {data.role && <div><dt>Role</dt><dd>{data.role}</dd></div>}
-        {data.timeframe && <div><dt>When</dt><dd>{data.timeframe}</dd></div>}
-        <div><dt>Stack</dt><dd>{data.tags.join(' · ')}</dd></div>
-      </dl>
-      <MetricStrip metrics={data.metrics ?? []} />
+  <main id="main">
+    <header class="head">
+      <div class="container">
+        <a class="back" href="/#projects">← All projects</a>
+        <p class="eyebrow">Case study</p>
+        <h1>{data.title}</h1>
+        <p class="summary">{data.summary}</p>
+        <dl class="facts">
+          {data.role && <div><dt>Role</dt><dd>{data.role}</dd></div>}
+          {data.timeframe && <div><dt>When</dt><dd>{data.timeframe}</dd></div>}
+        </dl>
+        <ul class="tags">{data.tags.map((tag) => <li>{tag}</li>)}</ul>
+        <MetricStrip metrics={data.metrics ?? []} />
+      </div>
     </header>
-    <article class="prose">
-      <Content />
-    </article>
-    {(data.repo || data.demo) && (
-      <p class="links">
-        {data.repo && <a class="btn" href={data.repo}>Code</a>}
-        {data.demo && <a class="btn" href={data.demo}>Demo</a>}
-      </p>
-    )}
+    <div class="container">
+      <article class="prose">
+        <Content />
+      </article>
+      {(data.repo || data.demo) && (
+        <p class="links">
+          {data.repo && <a class="btn primary" href={data.repo}>View the code</a>}
+          {data.demo && <a class="btn" href={data.demo}>Demo</a>}
+          <a class="btn" href="/#projects">All projects</a>
+        </p>
+      )}
+    </div>
   </main>
   <Footer />
 </BaseLayout>
 
 <style>
-  main { padding-block: 2.5rem 3rem; }
-  .back { font-size: 0.9rem; }
-  h1 { margin: 1.5rem 0 0.5rem; font-size: clamp(1.9rem, 5vw, 2.75rem); line-height: 1.15; letter-spacing: -0.02em; }
-  .summary { max-width: var(--measure); margin: 0 0 1.5rem; font-size: 1.15rem; color: var(--muted); }
-  .facts { display: grid; gap: 0.35rem; margin: 0; font-size: 0.9rem; }
-  .facts div { display: flex; gap: 0.75rem; }
-  .facts dt { min-width: 3.5rem; font-weight: 600; }
+  .head {
+    padding-block: calc(var(--nav-h) + 2.5rem) 1rem;
+    background: radial-gradient(55rem 26rem at 10% -20%, rgba(249, 115, 22, 0.16), transparent 60%);
+    border-bottom: 1px solid var(--border);
+  }
+  .back { font-size: 0.9rem; text-decoration: none; }
+  .eyebrow { margin: 1.75rem 0 0; font: 0.8rem var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  h1 { margin: 0.5rem 0; font-size: clamp(2rem, 5.5vw, 3.25rem); line-height: 1.1; letter-spacing: -0.02em; }
+  .summary { max-width: var(--measure); margin: 0 0 1.5rem; font-size: 1.15rem; color: #d4d4d8; }
+  .facts { display: grid; gap: 0.35rem; margin: 0 0 1.25rem; font-size: 0.92rem; }
+  .facts div { display: flex; flex-wrap: wrap; gap: 0 0.75rem; }
+  .facts dt { min-width: 3.5rem; font-weight: 600; color: var(--accent-text); }
   .facts dd { margin: 0; color: var(--muted); }
-  .links { display: flex; gap: 0.6rem; margin-top: 2.5rem; }
+  article { padding-block: 1rem 0; }
+  .links { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 3rem 0 4rem; }
 </style>
