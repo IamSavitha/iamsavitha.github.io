@@ -13,7 +13,7 @@ const caseStudy = data.tier === 'flagship' ? `/projects/${id}/` : undefined;
 const image = projectImages[id];
 ---
 
-<article class:list={['card', 'project', { feature: image }]}>
+<article class:list={['card', 'project', { feature: image }]} data-reveal data-tilt-card>
   {image && (
     <div class="media">
       <Image src={image.src} alt={image.alt} widths={[480, 800, 1200]} sizes="(min-width: 900px) 560px, 100vw" />

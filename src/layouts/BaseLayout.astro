@@ -29,11 +29,19 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>
+      // Hide [data-reveal] content only while the effects script is expected; show it if the script never runs.
+      document.documentElement.classList.add('js');
+      setTimeout(function () { if (!window.__fx) document.documentElement.classList.remove('js'); }, 2500);
+    </script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
     <Nav />
     <slot />
+    <script>
+      import '../scripts/effects.ts';
+    </script>
   </body>
 </html>
 

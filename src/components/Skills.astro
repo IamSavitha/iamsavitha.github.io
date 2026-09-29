@@ -7,8 +7,8 @@ import { skills } from '../data/skills';
   <div class="container">
     <SectionHead title="Skills" subtitle="The tools I reach for, grouped by where they fit" />
     <ul class="groups">
-      {skills.map(({ group, blurb, items }) => (
-        <li class="card group">
+      {skills.map(({ group, blurb, items }, i) => (
+        <li class="card group" data-reveal style={`--i:${i % 3}`}>
           <p class="label">{group}</p>
           <p class="blurb">{blurb}</p>
           <ul class="tags">{items.map((item) => <li>{item}</li>)}</ul>
@@ -24,6 +24,19 @@ import { skills } from '../data/skills';
     gap: 1.25rem; margin: 0; padding: 0; list-style: none;
   }
   .group { padding: 1.4rem; }
+  /* Rotating accent border on hover */
+  .group::after {
+    content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; pointer-events: none;
+    background: conic-gradient(from var(--angle), transparent 0deg, transparent 250deg, #fb923c 320deg, #fed7aa 350deg, transparent 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0; transition: opacity 0.3s ease;
+    animation: border-spin 3.5s linear infinite paused;
+  }
+  .group:hover::after { opacity: 1; animation-play-state: running; }
+  @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+  @keyframes border-spin { to { --angle: 360deg; } }
+  @media (prefers-reduced-motion: reduce) { .group::after { animation: none; } }
   .label { margin: 0; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
   .blurb { margin: 0.35rem 0 1rem; color: var(--muted); font-size: 0.9rem; }
 </style>

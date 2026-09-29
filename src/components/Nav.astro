@@ -2,9 +2,9 @@
 import { profile } from '../data/profile';
 
 const links = [
-  { href: '/#experience', label: 'Experience' },
+  { href: '/#experience', label: 'Experience', optional: true },
   { href: '/#projects', label: 'Projects' },
-  { href: '/#skills', label: 'Skills' },
+  { href: '/#skills', label: 'Skills', optional: true },
   { href: '/#contact', label: 'Contact' },
 ];
 ---
@@ -16,7 +16,7 @@ const links = [
       <span class="full">{profile.name.toUpperCase()}</span>
     </a>
     <ul>
-      {links.map(({ href, label }) => <li><a href={href}>{label}</a></li>)}
+      {links.map(({ href, label, optional }) => <li class:list={{ optional }}><a href={href}>{label}</a></li>)}
       <li><a class="resume" href={profile.links.resume}>Resume</a></li>
     </ul>
   </div>
@@ -39,6 +39,8 @@ const links = [
     color: var(--muted); text-decoration: none; font-size: 0.85rem; white-space: nowrap;
   }
   a:not(.brand):hover { color: var(--text); background: rgba(255, 255, 255, 0.05); }
+  .optional { display: none; }
+  @media (min-width: 560px) { .optional { display: list-item; } }
   .resume { border: 1px solid var(--accent-border); color: var(--accent-text) !important; margin-left: 0.25rem; }
   @media (min-width: 720px) {
     .brand .short { display: none; }

@@ -15,8 +15,8 @@ const channels = [
   <div class="container">
     <SectionHead title="Let's Connect" subtitle="Open to ML/AI, data and software engineering roles." />
     <ul class="channels">
-      {channels.map(({ label, value, href }) => (
-        <li>
+      {channels.map(({ label, value, href }, i) => (
+        <li data-reveal style={`--i:${i}`}>
           <a class="card channel" href={href}>
             <span class="label">{label}</span>
             <span class="value">{value}</span>

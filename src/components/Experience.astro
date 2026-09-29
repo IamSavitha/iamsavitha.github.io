@@ -7,8 +7,8 @@ import { experience } from '../data/experience';
   <div class="container">
     <SectionHead title="Experience" subtitle="Where I've built and shipped" />
     <ol class="jobs">
-      {experience.map((job) => (
-        <li class="card job">
+      {experience.map((job, i) => (
+        <li class="card job" data-reveal style={`--i:${i % 2}`}>
           <p class="company">{job.company}</p>
           {job.roles.map((role) => (
             <div class="role">

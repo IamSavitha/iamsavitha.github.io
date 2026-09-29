@@ -7,7 +7,7 @@ interface Props {
 const { title, subtitle } = Astro.props;
 ---
 
-<header class="section-head">
+<header class="section-head" data-reveal>
   <h2>{title}</h2>
   {subtitle && <p>{subtitle}</p>}
 </header>

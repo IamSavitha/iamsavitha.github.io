@@ -9,8 +9,8 @@ const { projects } = Astro.props;
 ---
 
 <ul class="list">
-  {projects.map(({ data }) => (
-    <li class="card item">
+  {projects.map(({ data }, i) => (
+    <li class="card item" data-reveal style={`--i:${i % 3}`}>
       <h4>{data.repo ? <a href={data.repo}>{data.title}</a> : data.title}</h4>
       <p>{data.summary}</p>
       <ul class="tags">{data.tags.map((tag) => <li>{tag}</li>)}</ul>
