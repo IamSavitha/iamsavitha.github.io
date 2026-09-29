@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import portrait from '../assets/profile/savitha.jpg';
 import { profile } from '../data/profile';
 const { name, pitch, location, about } = profile;
 ---
@@ -25,6 +27,9 @@ const { name, pitch, location, about } = profile;
 
   <div class="container inner">
     <div class="title">
+      <div class="avatar">
+        <Image src={portrait} alt={`Portrait of ${name}`} width={420} widths={[140, 280, 420]} sizes="140px" loading="eager" fetchpriority="high" />
+      </div>
       <p class="location">{location}</p>
       <h1 class="shimmer">{name}</h1>
       <p class="pitch" aria-label={pitch}>
@@ -81,6 +86,25 @@ const { name, pitch, location, about } = profile;
   @media (min-width: 768px) { .spotlight { top: -20%; left: 15%; } }
   @media (min-width: 1024px) { .spotlight { width: 84%; } }
   .sparkles { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; }
+
+  /* Portrait with a slowly rotating soft ring */
+  .avatar {
+    position: relative; isolation: isolate; width: 112px; height: 112px; margin: 0 auto 1.25rem; padding: 4px; border-radius: 50%;
+    box-shadow: 0 10px 30px -10px rgba(176, 58, 91, 0.35);
+    animation: avatar-in 0.8s 0.1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  @media (min-width: 768px) { .avatar { width: 140px; height: 140px; } }
+  .avatar::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; border-radius: 50%;
+    background: conic-gradient(#f3c6d1, #c9d8ea, #b03a5b, #264b73, #f3c6d1);
+    animation: ring-spin 9s linear infinite;
+  }
+  .avatar :global(img) {
+    width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--bg);
+    object-fit: cover; object-position: 50% 22%; background: var(--surface-2);
+  }
+  @keyframes ring-spin { to { transform: rotate(1turn); } }
+  @keyframes avatar-in { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: none; } }
 
   /* Name and tagline */
   .title { text-align: center; }
@@ -140,7 +164,7 @@ const { name, pitch, location, about } = profile;
   @keyframes word-in { from { opacity: 0; filter: blur(8px); transform: translateY(8px); } to { opacity: 1; filter: none; transform: none; } }
 
   @media (prefers-reduced-motion: reduce) {
-    .aurora, .spotlight, .beam, .glow, .line, .word { animation: none; }
+    .aurora, .spotlight, .beam, .glow, .line, .word, .avatar, .avatar::before { animation: none; }
     .spotlight { opacity: 1; }
     .beam { width: min(34rem, 100%); opacity: 0.6; }
     .glow { width: min(26rem, 90%); opacity: 0.45; }
