@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import portrait from '../assets/profile/savitha.jpg';
 import { profile } from '../data/profile';
-const { name, pitch, location, about } = profile;
+const { name, pitch, location, about, workAuthorization } = profile;
 ---
 
 <section class="hero" id="top">
@@ -32,6 +32,7 @@ const { name, pitch, location, about } = profile;
       </div>
       <p class="location">{location}</p>
       <h1 class="shimmer">{name}</h1>
+      <p class="auth"><span class="check" aria-hidden="true">✓</span>{workAuthorization}</p>
       <p class="pitch" aria-label={pitch}>
         {pitch.split(' ').map((word, i) => <span class="word" aria-hidden="true" style={`--i:${i}`}>{word} </span>)}
       </p>
@@ -113,6 +114,16 @@ const { name, pitch, location, about } = profile;
     margin: 0.75rem 0 0.5rem; font-size: clamp(1.5rem, 8vw, 6rem); line-height: 1.04;
     font-weight: 800; letter-spacing: -0.03em; text-transform: uppercase; overflow-wrap: anywhere;
   }
+  .auth {
+    display: inline-flex; align-items: center; gap: 0.45rem; margin: 0.35rem 0 1rem;
+    padding: 0.3rem 0.85rem 0.3rem 0.4rem; border: 1px solid #d6e2cb; border-radius: 999px;
+    background: #f2f6ee; color: #3f5a2c; font-size: 0.88rem; font-weight: 500;
+    animation: word-in 0.6s 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .check {
+    display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%;
+    background: var(--matcha); color: #fff; font-size: 0.72rem; font-weight: 700;
+  }
   .pitch { margin: 0 auto; max-width: 40ch; font-size: clamp(1.05rem, 2.4vw, 1.35rem); color: var(--indigo); font-weight: 500; }
   .word { display: inline-block; white-space: pre; animation: word-in 0.6s calc(0.4s + var(--i) * 0.08s) cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 
@@ -164,7 +175,7 @@ const { name, pitch, location, about } = profile;
   @keyframes word-in { from { opacity: 0; filter: blur(8px); transform: translateY(8px); } to { opacity: 1; filter: none; transform: none; } }
 
   @media (prefers-reduced-motion: reduce) {
-    .aurora, .spotlight, .beam, .glow, .line, .word, .avatar, .avatar::before { animation: none; }
+    .aurora, .spotlight, .beam, .glow, .line, .word, .auth, .avatar, .avatar::before { animation: none; }
     .spotlight { opacity: 1; }
     .beam { width: min(34rem, 100%); opacity: 0.6; }
     .glow { width: min(26rem, 90%); opacity: 0.45; }
